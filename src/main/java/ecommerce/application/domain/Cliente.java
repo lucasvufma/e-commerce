@@ -1,13 +1,18 @@
-package ecommerce.domain;
+package ecommerce.application.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+@Entity
 public class Cliente implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -19,11 +24,25 @@ public class Cliente implements Serializable{
 	
 	@OneToOne(mappedBy="cliente",cascade = CascadeType.ALL)
 	private Endereco endereco;
+	
+	@OneToMany(mappedBy="cliente",cascade = CascadeType.ALL)
+	private List<Pedido> pedidos=new ArrayList<>();
 
+
+	public Cliente() {
+	}
+	public Cliente(String nome, String email, String cpf, Endereco endereco) {
+		super();
+		this.nome = nome;
+		this.email = email;
+		this.cpf = cpf;
+		this.endereco = endereco;
+	}
+	
 	public Integer getCod_cliente() {
 		return cod_cliente;
 	}
-
+	
 	public void setCod_cliente(Integer cod_cliente) {
 		this.cod_cliente = cod_cliente;
 	}
@@ -83,6 +102,12 @@ public class Cliente implements Serializable{
 		} else if (!cod_cliente.equals(other.cod_cliente))
 			return false;
 		return true;
+	}
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 	
 	

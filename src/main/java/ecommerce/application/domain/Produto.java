@@ -1,15 +1,21 @@
-package ecommerce.domain;
+package ecommerce.application.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
 public class Produto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -22,6 +28,18 @@ public class Produto implements Serializable{
 	@JsonIgnore
 	private Categoria categoria;
 	
+	@OneToMany(mappedBy="produto",cascade = CascadeType.ALL)
+	private List<ItemPedido> itempedido=new ArrayList<>();
+	
+	public Produto (){
+	}
+	
+	public Produto(String nome, double preço) {
+		super();
+		this.nome = nome;
+		this.preço = preço;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -68,6 +86,14 @@ public class Produto implements Serializable{
 	}
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public List<ItemPedido> getItempedido() {
+		return itempedido;
+	}
+
+	public void setItempedido(List<ItemPedido> itempedido) {
+		this.itempedido = itempedido;
 	}
 	
 

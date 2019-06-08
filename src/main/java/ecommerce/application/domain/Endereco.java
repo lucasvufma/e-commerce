@@ -1,4 +1,4 @@
-package ecommerce.domain;
+package ecommerce.application.domain;
 
 import java.io.Serializable;
 
@@ -28,6 +28,23 @@ public class Endereco implements Serializable{
 	@JoinColumn(name= "cod_cliente")
 	private Cliente cliente;
 	
+	
+	public Endereco() {
+		
+	}
+	
+	public Endereco(String numero, String logradouro, String bairro, String cep, String cidade, String estado,
+			Cliente cliente) {
+		super();
+		this.numero = numero;
+		this.logradouro = logradouro;
+		this.bairro = bairro;
+		this.cep = cep;
+		this.cidade = cidade;
+		this.estado = estado;
+		this.cliente = cliente;
+	}
+
 	public Integer getCod_endereco() {
 		return cod_endereco;
 	}

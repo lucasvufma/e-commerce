@@ -1,4 +1,4 @@
-package ecommerce.domain;
+package ecommerce.application.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +26,10 @@ public class Categoria implements Serializable{
 	public List<Produto> getProdutos() {
 		return produtos;
 	}
+	
+	public void addProduto(Produto produto){
+		produtos.add(produto);
+	}
 
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
@@ -34,17 +38,16 @@ public class Categoria implements Serializable{
 	public Categoria() {
 	}
 
-	public Categoria(int cod_categoria, String nome) {
-		super();
-		this.cod_categoria = cod_categoria;
+	public Categoria(String nome) {
+		super();;
 		this.nome = nome;
 	}
 
-	public int getCod_categoria() {
+	public Integer getCod_categoria() {
 		return cod_categoria;
 	}
 
-	public void setCod_categoria(int cod_categoria) {
+	public void setCod_categoria(Integer cod_categoria) {
 		this.cod_categoria = cod_categoria;
 	}
 
@@ -80,6 +83,14 @@ public class Categoria implements Serializable{
 			return false;
 		return true;
 	}
+
+	public Categoria(String nome, List<Produto> produtos) {
+		super();
+		this.nome = nome;
+		this.produtos = produtos;
+	}
+
+	
 	
 	
 
