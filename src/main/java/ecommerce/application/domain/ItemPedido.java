@@ -18,6 +18,7 @@ public class ItemPedido implements Serializable{
 	private Integer cod_itempedido;
 	private int quantidade;
 	private double desconto;
+	private double preco;
 	
 	@ManyToOne
 	@JoinColumn(name="cod_pedido")
@@ -26,24 +27,19 @@ public class ItemPedido implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name= "cod_produto")
-	@JsonIgnore
 	private Produto produto;
 	
-	@ManyToOne
-	@JoinColumn(name= "cod_pagamento")
-	@JsonIgnore
-	private Pagamento pagamento;
 	
 	public ItemPedido() {
 	}
 	
-	public ItemPedido(int quantidade, double desconto, Pedido pedido, Produto produto, Pagamento pagamento) {
+	public ItemPedido(int quantidade, double desconto, Pedido pedido, Produto produto) {
 		super();
 		this.quantidade = quantidade;
 		this.desconto = desconto;
 		this.pedido = pedido;
 		this.produto = produto;
-		this.pagamento = pagamento;
+		this.preco=produto.getPreço();
 	}
 
 	public Integer getCod_itempedido() {
@@ -84,15 +80,9 @@ public class ItemPedido implements Serializable{
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+		this.preco=produto.getPreço();
 	}
 
-	public Pagamento getPagamento() {
-		return pagamento;
-	}
-
-	public void setPagamento(Pagamento pagamento) {
-		this.pagamento = pagamento;
-	}
 
 	@Override
 	public int hashCode() {
@@ -123,6 +113,18 @@ public class ItemPedido implements Serializable{
 		} else if (!produto.equals(other.produto))
 			return false;
 		return true;
+	}
+	
+	public double getSubTotal() {
+		return (preco-desconto)*quantidade;
+	}
+
+	public double getPreco() {
+		return preco;
+	}
+
+	public void setPreco(double preco) {
+		this.preco = preco;
 	}
 
 	

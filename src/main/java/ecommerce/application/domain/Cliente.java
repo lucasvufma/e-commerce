@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
 
 @Entity
 public class Cliente implements Serializable{
@@ -19,6 +21,8 @@ public class Cliente implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer cod_cliente;
 	private String nome;
+	@Column(unique=true)
+	@Email
 	private String email;
 	private String cpf;
 	
@@ -31,12 +35,11 @@ public class Cliente implements Serializable{
 
 	public Cliente() {
 	}
-	public Cliente(String nome, String email, String cpf, Endereco endereco) {
+	public Cliente(String nome, String email, String cpf) {
 		super();
 		this.nome = nome;
 		this.email = email;
 		this.cpf = cpf;
-		this.endereco = endereco;
 	}
 	
 	public Integer getCod_cliente() {
