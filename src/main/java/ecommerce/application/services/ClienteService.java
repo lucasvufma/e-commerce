@@ -10,40 +10,41 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import ecommerce.application.domain.Categoria;
-import ecommerce.application.repositories.CategoriaRepository;
+import ecommerce.application.domain.Cliente;
+import ecommerce.application.repositories.ClienteRepository;
 
 @Service
-public class CategoriaService {
+public class ClienteService {
 	
 	@Autowired
-	private CategoriaRepository repository;
+	private ClienteRepository repository;
 	
-	public List<Categoria> findAll(){
+	public List<Cliente> findAll(){
 		return repository.findAll();
 	}
-	public Optional<Categoria> find(Integer id) {
+	public Optional<Cliente> find(Integer id) {
 		return repository.findById(id);
 	}
-	public Categoria post(Categoria object) {
-		object.setCod_categoria(null);
+	public Cliente post(Cliente object) {
+		object.setCod_cliente(null);
 		return repository.save(object);
 	}
 	public void deleteById(Integer id) {
 		find(id);
 		repository.deleteById(id);
 	}
-	public Categoria put(Categoria obj) {
-		Optional<Categoria> newObj = find(obj.getCod_categoria());
+	public Cliente put(Cliente obj) {
+		Optional<Cliente> newObj = find(obj.getCod_cliente());
 		updateData(newObj.get(),obj);
 		return repository.save(newObj.get());
 }
-	private void updateData(Categoria newObj, Categoria obj) {
+	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
+		newObj.setEmail(obj.getEmail());
+		newObj.setEndereco(obj.getEndereco());
 	}
-	public  Page<Categoria> findPage(Integer page, Integer linesPerPage,String direction, String orderBy){
+	public  Page<Cliente> findPage(Integer page, Integer linesPerPage,String direction, String orderBy){
 		return repository.findAll(PageRequest.of(page,linesPerPage, Direction.valueOf(direction),orderBy));
 	}
-	
-	
 		
 }

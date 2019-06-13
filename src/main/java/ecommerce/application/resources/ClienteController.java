@@ -20,31 +20,32 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import ecommerce.application.domain.Categoria;
-import ecommerce.application.services.CategoriaService;
+
+import ecommerce.application.domain.Cliente;
+import ecommerce.application.services.ClienteService;
 
 @RestController
-@RequestMapping("/categorias")
-public class CategoriaController {
+@RequestMapping("/Clientes")
+public class ClienteController {
 	@Autowired
-	private CategoriaService service;
+	private ClienteService service;
 	
 	@GetMapping
-	public List<Categoria> getAll(){
+	public List<Cliente> getAll(){
 		return service.findAll();
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<Categoria> get(@PathVariable Integer id){
-		Optional<Categoria> categoria = service.find(id);
-		if (categoria.isEmpty()) {
+	public ResponseEntity<Cliente> get(@PathVariable Integer id){
+		Optional<Cliente> Cliente = service.find(id);
+		if (Cliente.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(categoria.get());	
+		return ResponseEntity.ok(Cliente.get());	
 	}
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Categoria post(@RequestBody Categoria categoria) {
-		return service.post(categoria);
+	public Cliente post(@RequestBody Cliente Cliente) {
+		return service.post(Cliente);
 	}
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -53,23 +54,22 @@ public class CategoriaController {
 			service.deleteById(id);
 		}
 		catch(DataIntegrityViolationException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Existe um ou mais produtos associados a esta categoria");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Existe um ou mais produtos associados a esta Cliente");
 		}
 	}
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public Categoria put(@RequestBody Categoria categoria,@PathVariable Integer id) {
-		Categoria obj = categoria;
-		obj.setCod_categoria(id);
+	public Cliente put(@RequestBody Cliente Cliente,@PathVariable Integer id) {
+		Cliente obj = Cliente;
+		obj.setCod_cliente(id);
 		return service.put(obj);	
 	}
-	
 	@GetMapping("/page")
-	public Page<Categoria> page(@RequestParam(value="page",defaultValue="0")Integer page,
+	public Page<Cliente> page(@RequestParam(value="page",defaultValue="0")Integer page,
 			@RequestParam(value="linesPerPage",defaultValue="24")Integer linesPerPage,
 			@RequestParam(value="orderBy",defaultValue="nome")String orderBy,
 			@RequestParam(value="direction",defaultValue="ASC")String direction){
-		Page<Categoria> objs = service.findPage(page,linesPerPage,direction,orderBy);
+		Page<Cliente> objs = service.findPage(page,linesPerPage,direction,orderBy);
 		return objs;			
 			}
 	
@@ -80,7 +80,6 @@ public class CategoriaController {
 	
 	
 	
+	
 
-	
-	
 }
