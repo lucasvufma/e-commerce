@@ -20,7 +20,7 @@ public class Produto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer cod_prod;
+	private Integer cod_produto;
 	private String nome;
 	private double preço;
 	@ManyToOne
@@ -28,7 +28,7 @@ public class Produto implements Serializable{
 	@JsonIgnore
 	private Categoria categoria;
 	
-	@OneToMany(mappedBy="produto",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="produto")
 	@JsonIgnore
 	private List<ItemPedido> itempedido=new ArrayList<>();
 	
@@ -45,7 +45,7 @@ public class Produto implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cod_prod == null) ? 0 : cod_prod.hashCode());
+		result = prime * result + ((cod_produto == null) ? 0 : cod_produto.hashCode());
 		return result;
 	}
 	@Override
@@ -57,18 +57,18 @@ public class Produto implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Produto other = (Produto) obj;
-		if (cod_prod == null) {
-			if (other.cod_prod != null)
+		if (cod_produto == null) {
+			if (other.cod_produto != null)
 				return false;
-		} else if (!cod_prod.equals(other.cod_prod))
+		} else if (!cod_produto.equals(other.cod_produto))
 			return false;
 		return true;
 	}
-	public Integer getCod_prod() {
-		return cod_prod;
+	public Integer getCod_produto() {
+		return cod_produto;
 	}
-	public void setCod_prod(Integer cod_prod) {
-		this.cod_prod = cod_prod;
+	public void setCod_produto(Integer cod_produto) {
+		this.cod_produto = cod_produto;
 	}
 	public String getNome() {
 		return nome;

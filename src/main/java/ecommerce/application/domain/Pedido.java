@@ -38,7 +38,7 @@ public class Pedido implements Serializable {
 	private List<ItemPedido> itempedido=new ArrayList<>();
 	
 
-	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm",timezone = "GMT-03:00")
 	private Date date_pedido;
 	
 	public Pedido() {

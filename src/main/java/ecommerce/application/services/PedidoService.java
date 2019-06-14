@@ -43,10 +43,10 @@ public class PedidoService {
 	public Pedido post(Pedido object) {
 		object.setCod_pedido(null);
 		object.setDate_pedido(new Date());
-		object.getPagamento().setStatus(1); //1 Pendente
+		object.getPagamento().setStatus(0); //0 Pendente
 		object.getPagamento().setPedido(object);
 		if(object.getPagamento().getTipo_pagamento()==TipoPagamento.Boleto) {
-			//
+
 			// object.getPagamento().setData_vencimento_boleto(Calendar -> Calendar.getInstance().setTime(new Date()).add(Calendar.DAY_OF_MONTH,7));
 			// ou Calendar cal = Calengar.getInstance();
 			// cal.setTime(object.getDate_pedido());
@@ -58,7 +58,7 @@ public class PedidoService {
 		pagamentoRepository.save(object.getPagamento());
 		for (ItemPedido ip : object.getItempedido()) {
 			ip.setDesconto(0.0);
-			Optional<Produto> produto = produtoRepository.findById(ip.getProduto().getCod_prod());
+			Optional<Produto> produto = produtoRepository.findById(ip.getProduto().getCod_produto());
 			if (produto.isPresent()) {
 				ip.setPreco(produto.get().getPreço());
 				ip.setPedido(object);

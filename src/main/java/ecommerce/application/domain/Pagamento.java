@@ -1,5 +1,8 @@
 package ecommerce.application.domain;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ecommerce.application.enums.TipoPagamento;
@@ -25,6 +29,37 @@ public class Pagamento {
 	@OneToOne
 	@JoinColumn(name="cod_pedido")
 	private Pedido pedido;
+
+	
+	//cartao tipo_pagamento == TipoPagamento.Cartao
+	private Integer numeroDeParcelas;
+	
+	//boleto  tipo_pagamento = TipoPagamento.Boleto
+	@JsonFormat(pattern="dd/MM/yyyy",timezone = "GMT-03:00")
+	private Date dataVencimento;
+	
+	
+	public Integer getNumeroDeParcelas() {
+		return numeroDeParcelas;
+	}
+	public void setNumeroDeParcelas(Integer numeroDeParcelas) {
+		this.numeroDeParcelas = numeroDeParcelas;
+	}
+	public Date getDataVencimento() {
+		return dataVencimento;
+	}
+	public void setDataVencimento(Date dataVencimento) {
+		this.dataVencimento = dataVencimento;
+	}
+	public Date getDataPagamento() {
+		return dataPagamento;
+	}
+	public void setDataPagamento(Date dataPagamento) {
+		this.dataPagamento = dataPagamento;
+	}
+
+	@JsonFormat(pattern="dd/MM/yyyy",timezone = "GMT-03:00")
+	private Date dataPagamento;
 	
 
 	public TipoPagamento getTipo_pagamento() {
@@ -35,12 +70,21 @@ public class Pagamento {
 		this.tipo_pagamento = tipo_pagamento;
 		this.status = status;
 		this.pedido=pedido;
+		this.updateDatavencimento();
 	}
 	public Pagamento() {
 	}
 
 	public Pedido getPedido() {
 		return pedido;
+	}
+	public void updateDatavencimento() {
+		if(tipo_pagamento==TipoPagamento.Boleto) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.add(Calendar.DAY_OF_MONTH,7);
+			this.setDataVencimento(cal.getTime());
+		}
 	}
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
@@ -54,6 +98,12 @@ public class Pagamento {
 	}
 
 	public void setStatus(int status) {
+		if (status==1 && this.tipo_pagamento==TipoPagamento.Boleto) {  //Status 1 = Pago, veja que tou amarrando a data de pagamento, isto é, se tiver sido pago o status altera a data de pagamento poderia fazer o contrario
+			this.setDataPagamento(new Date());
+		}
+		if(status==0 && this.tipo_pagamento==TipoPagamento.Boleto){
+			this.updateDatavencimento();
+		}
 		this.status = status;
 	}
 

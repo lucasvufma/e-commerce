@@ -60,10 +60,13 @@ public class ECommerceApplication implements CommandLineRunner{
 		
 		//Populando com produtos
 		Produto p1 = new Produto("Computador",500.0);
+		Produto p2 = new Produto("Celular",200.0);
 		
 		//Flow
 		cat1.addProduto(p1);
+		cat1.addProduto(p2);
 		p1.setCategoria(cat1);
+		p2.setCategoria(cat1);
 		
 		Cliente c1 = new Cliente("Lucas MAchado","lucasvufma@gmail.com","60908095350");
 		Endereco e1 = new Endereco("6","Logradouro","Calhau","65073143", "São Luís","Ma",c1);
@@ -73,14 +76,14 @@ public class ECommerceApplication implements CommandLineRunner{
 
 		Pedido ped1 = new Pedido(c1,sdf.parse("30/09/2017 10:32"));
 		
-		Pagamento pagto1 = new Pagamento(TipoPagamento.Boleto,1,ped1);
+		Pagamento pagto1 = new Pagamento(TipoPagamento.Boleto,0,ped1);
 		
 		ItemPedido item1 = new ItemPedido(1,0.0, ped1, p1);
 		
 		ped1.getItempedido().addAll(Arrays.asList(item1));
 	
 		categoriaRepository.saveAll(Arrays.asList(cat1));
-		produtoRepository.saveAll(Arrays.asList(p1));
+		produtoRepository.saveAll(Arrays.asList(p1,p2));
 		clienteRepository.saveAll(Arrays.asList(c1));
 		enderecoRepository.saveAll(Arrays.asList(e1));
 		pedidoRepository.saveAll(Arrays.asList(ped1));
