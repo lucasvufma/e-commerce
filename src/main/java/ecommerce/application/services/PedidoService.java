@@ -1,6 +1,5 @@
 package ecommerce.application.services;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +14,7 @@ import ecommerce.application.domain.ItemPedido;
 import ecommerce.application.domain.Pedido;
 import ecommerce.application.domain.Produto;
 import ecommerce.application.enums.TipoPagamento;
+import ecommerce.application.repositories.ClienteRepository;
 import ecommerce.application.repositories.ItemPedidoRepository;
 import ecommerce.application.repositories.PagamentoRepository;
 import ecommerce.application.repositories.PedidoRepository;
@@ -24,6 +24,9 @@ public class PedidoService {
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
 	
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;

@@ -116,6 +116,15 @@ public class Endereco implements Serializable{
 		return true;
 	}
 
+	public void updateEnd(Endereco endereco) {
+		this.setBairro(endereco.getBairro());
+		this.setNumero(endereco.getNumero());
+		this.setLogradouro(endereco.getLogradouro());
+		this.setCep(endereco.getCep());
+		this.setCidade(endereco.getCidade());
+		this.setEstado(endereco.getEstado());	
+	}
+
 	
 
 }

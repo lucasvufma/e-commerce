@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import ecommerce.application.domain.Categoria;
 import ecommerce.application.domain.Cliente;
+import ecommerce.application.domain.Endereco;
 import ecommerce.application.repositories.ClienteRepository;
 
 @Service
@@ -27,6 +28,7 @@ public class ClienteService {
 	}
 	public Cliente post(Cliente object) {
 		object.setCod_cliente(null);
+		object.getEndereco().setCliente(object);
 		return repository.save(object);
 	}
 	public void deleteById(Integer id) {
@@ -39,10 +41,17 @@ public class ClienteService {
 		return repository.save(newObj.get());
 }
 	private void updateData(Cliente newObj, Cliente obj) {
-		newObj.setNome(obj.getNome());
-		newObj.setEmail(obj.getEmail());
-		newObj.setEndereco(obj.getEndereco());
+		if(obj.getNome()!=null) {
+			newObj.setNome(obj.getNome());
+		}
+		if (obj.getEmail()!=null) {
+			newObj.setEmail(obj.getEmail());
+		}
+		if (obj.getEndereco()!=null) {
+			newObj.getEndereco().updateEnd(obj.getEndereco());
+		}
 	}
+
 	public  Page<Cliente> findPage(Integer page, Integer linesPerPage,String direction, String orderBy){
 		return repository.findAll(PageRequest.of(page,linesPerPage, Direction.valueOf(direction),orderBy));
 	}

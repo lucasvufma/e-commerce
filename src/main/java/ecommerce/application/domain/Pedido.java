@@ -25,7 +25,6 @@ public class Pedido implements Serializable {
 	private Integer cod_pedido;
 	@ManyToOne
 	@JoinColumn(name="cod_cliente")
-	@JsonIgnore
 	private Cliente cliente;
 	
 	
