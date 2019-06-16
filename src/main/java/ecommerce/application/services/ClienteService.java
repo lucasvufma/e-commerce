@@ -9,10 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import ecommerce.application.domain.Categoria;
 import ecommerce.application.domain.Cliente;
-import ecommerce.application.domain.Endereco;
+import ecommerce.application.enums.Perfil;
 import ecommerce.application.repositories.ClienteRepository;
+import ecommerce.application.security.UserSecurity;
+import ecommerce.application.services.exceptions.AuthorizationException;
 
 @Service
 public class ClienteService {
@@ -24,6 +25,10 @@ public class ClienteService {
 		return repository.findAll();
 	}
 	public Optional<Cliente> find(Integer id) {
+		UserSecurity user = UserService.authenticated();
+		if(user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getCod_usuario())) {
+			throw new AuthorizationException("Acesso Negado!");
+		}
 		return repository.findById(id);
 	}
 	public Cliente post(Cliente object) {

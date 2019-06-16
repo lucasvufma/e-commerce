@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-
 import ecommerce.application.domain.Cliente;
 import ecommerce.application.services.ClienteService;
 
@@ -30,6 +30,7 @@ public class ClienteController {
 	@Autowired
 	private ClienteService service;
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping
 	public List<Cliente> getAll(){
 		return service.findAll();
@@ -42,11 +43,13 @@ public class ClienteController {
 		}
 		return ResponseEntity.ok(Cliente.get());	
 	}
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente post(@RequestBody Cliente Cliente) {
 		return service.post(Cliente);
 	}
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Integer id) {
@@ -57,6 +60,8 @@ public class ClienteController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Existe um ou mais produtos associados a esta Cliente");
 		}
 	}
+	
+
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public Cliente put(@RequestBody Cliente Cliente,@PathVariable Integer id) {
@@ -64,6 +69,8 @@ public class ClienteController {
 		obj.setCod_cliente(id);
 		return service.put(obj);	
 	}
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("/page")
 	public Page<Cliente> page(@RequestParam(value="page",defaultValue="0")Integer page,
 			@RequestParam(value="linesPerPage",defaultValue="24")Integer linesPerPage,

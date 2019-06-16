@@ -89,7 +89,7 @@ public class ECommerceApplication implements CommandLineRunner{
 		Cliente c2 = new Cliente("Lucas V. P. MAchado","lucasvufma124123@gmail.com","60908095350",encoder.encode("123456"));;
 		c2.addPerfil(Perfil.ADMIN);
 		Endereco e1 = new Endereco("6","Logradouro","Calhau","65073143", "São Luís","Ma",c1);
-		Endereco e2 = new Endereco("66","Logradouro","Calhau","65073143", "São Luís","Ma",c1);
+		Endereco e2 = new Endereco("66","Logradouro","Calhau","65073143", "São Luís","Ma",c2);
 		c1.setEndereco(e1);
 		c2.setEndereco(e2);
 		
