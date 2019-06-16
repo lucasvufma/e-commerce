@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import ecommerce.application.domain.Categoria;
 import ecommerce.application.domain.Pedido;
 import ecommerce.application.services.PedidoService;
 
@@ -30,10 +31,7 @@ public class PedidoController {
 	@Autowired
 	private PedidoService service;
 	
-	@GetMapping
-	public List<Pedido> getAll(){
-		return service.findAll();
-	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Pedido> get(@PathVariable Integer id){
 		Optional<Pedido> Pedido = service.find(id);
@@ -67,4 +65,14 @@ public class PedidoController {
 		Page<Pedido> objs = service.findPage(page,linesPerPage,direction,orderBy);
 		return objs;			
 			}
+	
+	@GetMapping
+	public Page<Pedido> findPage(@RequestParam(value="page",defaultValue="0")Integer page,
+			@RequestParam(value="linesPerPage",defaultValue="24")Integer linesPerPage,
+			@RequestParam(value="orderBy",defaultValue="date_pedido")String orderBy,
+			@RequestParam(value="direction",defaultValue="DESC")String direction){
+		Page<Pedido> objs = service.findPage(page,linesPerPage,direction,orderBy);
+		return objs;			
+			}
+	
 }

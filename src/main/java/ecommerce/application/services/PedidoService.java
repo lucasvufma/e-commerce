@@ -20,6 +20,8 @@ import ecommerce.application.repositories.ItemPedidoRepository;
 import ecommerce.application.repositories.PagamentoRepository;
 import ecommerce.application.repositories.PedidoRepository;
 import ecommerce.application.repositories.ProdutoRepository;
+import ecommerce.application.security.UserSecurity;
+import ecommerce.application.services.exceptions.AuthorizationException;
 @Service
 public class PedidoService {
 	
@@ -87,7 +89,18 @@ public class PedidoService {
 		repository.deleteById(id);
 	}
 	public  Page<Pedido> findPage(Integer page, Integer linesPerPage,String direction, String orderBy){
-		return repository.findAll(PageRequest.of(page,linesPerPage, Direction.valueOf(direction),orderBy));
+		UserSecurity user = UserService.authenticated();
+		if(user==null) {
+			throw new AuthorizationException("Acesso Negado");
+		}
+		Optional<Cliente> cliente = clienteRepository.findById(user.getCod_usuario());
+		if (cliente.isPresent()){
+			return repository.findByCliente(cliente.get(),
+					PageRequest.of(page,linesPerPage, Direction.valueOf(direction),orderBy));
+		}
+		else {
+			throw new RuntimeException();
+		}
 	}
 
 }
