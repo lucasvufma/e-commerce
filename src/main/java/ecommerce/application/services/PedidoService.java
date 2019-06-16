@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import ecommerce.application.domain.Cliente;
 import ecommerce.application.domain.ItemPedido;
 import ecommerce.application.domain.Pedido;
 import ecommerce.application.domain.Produto;
@@ -35,7 +36,10 @@ public class PedidoService {
 	private PedidoRepository repository;
 	
 	@Autowired
-	private PagamentoRepository pagamentoRepository;
+	private PagamentoRepository pagamentoRepository;  
+	
+	@Autowired
+	private EmailService emailService;
 	
 	public List<Pedido> findAll(){
 		return repository.findAll();
@@ -48,6 +52,10 @@ public class PedidoService {
 		object.setDate_pedido(new Date());
 		object.getPagamento().setStatus(0); //0 Pendente
 		object.getPagamento().setPedido(object);
+		Optional<Cliente> cliente = clienteRepository.findById(object.getCliente().getCod_cliente());
+		if (cliente.isPresent()) {
+			object.setCliente(cliente.get());
+		}
 		if(object.getPagamento().getTipo_pagamento()==TipoPagamento.Boleto) {
 
 			// object.getPagamento().setData_vencimento_boleto(Calendar -> Calendar.getInstance().setTime(new Date()).add(Calendar.DAY_OF_MONTH,7));
@@ -69,6 +77,7 @@ public class PedidoService {
 			}
 		}
 		itemPedidoRepository.saveAll(object.getItempedido());
+		emailService.sendOrderHtmlEmailConfirmation(object);
 		return object;
 	}
 	

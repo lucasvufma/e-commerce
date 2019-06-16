@@ -96,6 +96,15 @@ public class Pagamento {
 	public int getStatus() {
 		return status;
 	}
+	public String getDescricaostatus() {
+		if(this.getStatus()==1) {
+			return "Pago";
+		}
+		if(this.getStatus()==0) {
+			return "Pendente";
+		}
+		return "Erro - Status indeterminado";
+	}
 
 	public void setStatus(int status) {
 		if (status==1 && this.tipo_pagamento==TipoPagamento.Boleto) {  //Status 1 = Pago, veja que tou amarrando a data de pagamento, isto é, se tiver sido pago o status altera a data de pagamento poderia fazer o contrario

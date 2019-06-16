@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import ecommerce.application.domain.Categoria;
 import ecommerce.application.domain.Cliente;
@@ -24,6 +25,8 @@ import ecommerce.application.repositories.ItemPedidoRepository;
 import ecommerce.application.repositories.PagamentoRepository;
 import ecommerce.application.repositories.PedidoRepository;
 import ecommerce.application.repositories.ProdutoRepository;
+import ecommerce.application.services.EmailService;
+import ecommerce.application.services.SmtpEmailService;
 
 @SpringBootApplication
 public class ECommerceApplication implements CommandLineRunner{
@@ -49,12 +52,21 @@ public class ECommerceApplication implements CommandLineRunner{
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
 	
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();
+	}
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ECommerceApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
+		
+		
+
+		
 		//Populando com categorias
 		Categoria cat1 = new Categoria("Informatica");
 		
