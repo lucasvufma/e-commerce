@@ -29,8 +29,6 @@ public class Pedido implements Serializable {
 	@JoinColumn(name="cod_cliente")
 	private Cliente cliente;
 	
-	
-	//Mudança pedido agora tem relação com pagamento e não mais item pedido com pagamento corrigir no BD depois
 
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido")
 	private Pagamento pagamento;

@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import ecommerce.application.domain.Categoria;
 import ecommerce.application.domain.Cliente;
@@ -17,6 +18,7 @@ import ecommerce.application.domain.ItemPedido;
 import ecommerce.application.domain.Pagamento;
 import ecommerce.application.domain.Pedido;
 import ecommerce.application.domain.Produto;
+import ecommerce.application.enums.Perfil;
 import ecommerce.application.enums.TipoPagamento;
 import ecommerce.application.repositories.CategoriaRepository;
 import ecommerce.application.repositories.ClienteRepository;
@@ -52,6 +54,9 @@ public class ECommerceApplication implements CommandLineRunner{
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
 	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+	
 	@Bean
 	public EmailService emailService() {
 		return new SmtpEmailService();
@@ -80,9 +85,13 @@ public class ECommerceApplication implements CommandLineRunner{
 		p1.setCategoria(cat1);
 		p2.setCategoria(cat1);
 		
-		Cliente c1 = new Cliente("Lucas MAchado","lucasvufma@gmail.com","60908095350");
+		Cliente c1 = new Cliente("Lucas MAchado","lucasvufma@gmail.com","60908095351",encoder.encode("123"));;
+		Cliente c2 = new Cliente("Lucas V. P. MAchado","lucasvufma124123@gmail.com","60908095350",encoder.encode("123456"));;
+		c2.addPerfil(Perfil.ADMIN);
 		Endereco e1 = new Endereco("6","Logradouro","Calhau","65073143", "São Luís","Ma",c1);
+		Endereco e2 = new Endereco("66","Logradouro","Calhau","65073143", "São Luís","Ma",c1);
 		c1.setEndereco(e1);
+		c2.setEndereco(e2);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -96,8 +105,8 @@ public class ECommerceApplication implements CommandLineRunner{
 	
 		categoriaRepository.saveAll(Arrays.asList(cat1));
 		produtoRepository.saveAll(Arrays.asList(p1,p2));
-		clienteRepository.saveAll(Arrays.asList(c1));
-		enderecoRepository.saveAll(Arrays.asList(e1));
+		clienteRepository.saveAll(Arrays.asList(c1,c2));
+		enderecoRepository.saveAll(Arrays.asList(e1,e2));
 		pedidoRepository.saveAll(Arrays.asList(ped1));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1));
 		itempedidoRepository.saveAll(Arrays.asList(item1));

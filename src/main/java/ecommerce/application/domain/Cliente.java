@@ -2,11 +2,17 @@ package ecommerce.application.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +21,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ecommerce.application.enums.Perfil;
 
 @Entity
 public class Cliente implements Serializable{
@@ -28,6 +36,14 @@ public class Cliente implements Serializable{
 	private String email;
 	private String cpf;
 	
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="Perfis")
+	private Set<Integer> perfis = new HashSet<>();
+	
+	@JsonIgnore
+	private String senha;
+	
+
 	@OneToOne(mappedBy="cliente",cascade = CascadeType.ALL)
 	private Endereco endereco;
 	
@@ -37,12 +53,30 @@ public class Cliente implements Serializable{
 
 
 	public Cliente() {
+		addPerfil(Perfil.CLIENTE);
 	}
-	public Cliente(String nome, String email, String cpf) {
+	public Cliente(String nome, String email, String cpf, String senha) {
 		super();
 		this.nome = nome;
 		this.email = email;
 		this.cpf = cpf;
+		this.senha=senha;
+		addPerfil(Perfil.CLIENTE);
+	}
+	
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+	
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
+	}
+	
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 	
 	public Integer getCod_cliente() {
