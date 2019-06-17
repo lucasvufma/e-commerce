@@ -1,5 +1,6 @@
 package ecommerce.application.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import ecommerce.application.domain.Cliente;
@@ -79,6 +82,11 @@ public class ClienteController {
 		Page<Cliente> objs = service.findPage(page,linesPerPage,direction,orderBy);
 		return objs;			
 			}
+	
+	@RequestMapping(value="/picture",method=RequestMethod.POST)
+	public ResponseEntity<Void> uploadProfilePict(@RequestParam(name="file")MultipartFile file) {
+		return ResponseEntity.created(service.uploadProfilePicture(file)).build();
+	}
 	
 	
 	
