@@ -92,5 +92,17 @@ public class ClienteService {
 	public  Page<Cliente> findPage(Integer page, Integer linesPerPage,String direction, String orderBy){
 		return repository.findAll(PageRequest.of(page,linesPerPage, Direction.valueOf(direction),orderBy));
 	}
+	
+	public Cliente findByEmail(String email) {
+		UserSecurity user = UserService.authenticated();
+		if(user==null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso Negado!");
+		}
+		Cliente cliente = repository.findByEmail(email);
+		if (cliente == null) {
+			throw new RuntimeException ("Erro inesperado!");
+		}
+		return cliente;
+	}
 		
 }

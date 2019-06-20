@@ -19,14 +19,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ecommerce.application.dto.CredenciaisDTO;
 
-public class Filter extends UsernamePasswordAuthenticationFilter {
+public class AuthFilter extends UsernamePasswordAuthenticationFilter {
 	
 	
 private AuthenticationManager authenticationManager;
     
     private JWTUtil jwtUtil;
 
-    public Filter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+    public AuthFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
     	setAuthenticationFailureHandler(new JWTAuthenticationFailureHandler());
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
@@ -61,6 +61,7 @@ private AuthenticationManager authenticationManager;
 		String username = ((UserSecurity) auth.getPrincipal()).getUsername();
         String token = jwtUtil.generateToken(username);
         res.addHeader("Authorization", "Bearer " + token);
+        res.addHeader("access-control-expose-headers", "Authorization");
 	}
 	
 	private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {

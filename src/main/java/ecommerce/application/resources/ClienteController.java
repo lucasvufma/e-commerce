@@ -1,6 +1,5 @@
 package ecommerce.application.resources;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,6 +85,13 @@ public class ClienteController {
 	@RequestMapping(value="/picture",method=RequestMethod.POST)
 	public ResponseEntity<Void> uploadProfilePict(@RequestParam(name="file")MultipartFile file) {
 		return ResponseEntity.created(service.uploadProfilePicture(file)).build();
+	}
+	
+	@GetMapping(value="/email")
+	@ResponseStatus(HttpStatus.OK)
+	public Cliente findByEmail(@RequestParam(value="value") String email) {
+		Cliente cliente = service.findByEmail(email);
+		return cliente;
 	}
 	
 	
