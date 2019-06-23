@@ -34,6 +34,7 @@ public class AuthController {
 	String token = jwtUtil.generateToken(user.getUsername());
 	response.addHeader("Authorization", "Bearer " + token);
 	response.addHeader("access-control-expose-headers", "Authorization");
+	// response.addHeader("Access-Control-Allow-Origin", "*");
 	}
 	
 	@PostMapping(value="/forgot")

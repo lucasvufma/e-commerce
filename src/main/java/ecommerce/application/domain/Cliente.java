@@ -36,6 +36,10 @@ public class Cliente implements Serializable{
 	private String email;
 	private String cpf;
 	
+	private String telefone1;
+	private String telefone2;
+	
+	
 	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="Perfis")
 	private Set<Integer> perfis = new HashSet<>();
@@ -52,6 +56,18 @@ public class Cliente implements Serializable{
 	private List<Pedido> pedidos=new ArrayList<>();
 
 
+	public String getTelefone1() {
+		return telefone1;
+	}
+	public void setTelefone1(String telefone1) {
+		this.telefone1 = telefone1;
+	}
+	public String getTelefone2() {
+		return telefone2;
+	}
+	public void setTelefone2(String telefone2) {
+		this.telefone2 = telefone2;
+	}
 	public Cliente() {
 		addPerfil(Perfil.CLIENTE);
 	}

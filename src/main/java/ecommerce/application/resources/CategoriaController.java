@@ -30,7 +30,7 @@ public class CategoriaController {
 	@Autowired
 	private CategoriaService service;
 	
-	@PreAuthorize("hasAnyRole('ADMIN')")
+
 	@GetMapping
 	public List<Categoria> getAll(){
 		return service.findAll();

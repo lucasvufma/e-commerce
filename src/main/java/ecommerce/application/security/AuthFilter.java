@@ -62,6 +62,7 @@ private AuthenticationManager authenticationManager;
         String token = jwtUtil.generateToken(username);
         res.addHeader("Authorization", "Bearer " + token);
         res.addHeader("access-control-expose-headers", "Authorization");
+        //res.addHeader("Access-Control-Allow-Origin", "*");
 	}
 	
 	private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {

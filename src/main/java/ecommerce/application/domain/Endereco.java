@@ -28,12 +28,14 @@ public class Endereco implements Serializable{
 	@JoinColumn(name= "cod_cliente")
 	private Cliente cliente;
 	
+	private String complemento;
+	
 	
 	public Endereco() {
 		
 	}
 	
-	public Endereco(String numero, String logradouro, String bairro, String cep, String cidade, String estado,Cliente cliente) {
+	public Endereco(String complemento,String numero, String logradouro, String bairro, String cep, String cidade, String estado,Cliente cliente) {
 		super();
 		this.numero = numero;
 		this.logradouro = logradouro;
@@ -42,6 +44,7 @@ public class Endereco implements Serializable{
 		this.cidade = cidade;
 		this.estado = estado;
 		this.cliente = cliente;
+		this.complemento=complemento;
 	}
 
 	public Integer getCod_endereco() {
@@ -59,6 +62,15 @@ public class Endereco implements Serializable{
 	public String getLogradouro() {
 		return logradouro;
 	}
+	
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+
 	public void setLogradouro(String logradouro) {
 		this.logradouro = logradouro;
 	}

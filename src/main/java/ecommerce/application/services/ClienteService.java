@@ -10,10 +10,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import ecommerce.application.domain.Cliente;
+import ecommerce.application.domain.Endereco;
+import ecommerce.application.dto.ClienteNewDTO;
 import ecommerce.application.enums.Perfil;
 import ecommerce.application.repositories.ClienteRepository;
 import ecommerce.application.security.UserSecurity;
@@ -36,6 +39,9 @@ public class ClienteService {
 	
 	@Autowired
 	private ImageService imageService;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 
 	
 	public List<Cliente> findAll(){
@@ -48,8 +54,10 @@ public class ClienteService {
 		}
 		return repository.findById(id);
 	}
-	public Cliente post(Cliente object) {
+	public Cliente post(ClienteNewDTO objectDTO) {
+		Cliente object = this.fromDTO(objectDTO);
 		object.setCod_cliente(null);
+		System.out.println(object.getEndereco());
 		object.getEndereco().setCliente(object);
 		return repository.save(object);
 	}
@@ -103,6 +111,30 @@ public class ClienteService {
 			throw new RuntimeException ("Erro inesperado!");
 		}
 		return cliente;
+	}
+	
+	public Cliente fromDTO(ClienteNewDTO clienteDTO) {
+		Cliente cliente = new Cliente();
+		Endereco endereco = new Endereco();
+		cliente.setSenha(pe.encode(clienteDTO.getSenha()));
+		cliente.setNome(clienteDTO.getNome());
+		cliente.setEmail(clienteDTO.getEmail());
+		cliente.setTelefone1(clienteDTO.getTelefone1());
+		if(clienteDTO.getTelefone2()!=null) {
+			cliente.setTelefone2(clienteDTO.getTelefone2());
+		}
+		cliente.setCpf(clienteDTO.getCpf());
+		// para o endereço
+		endereco.setBairro(clienteDTO.getBairro());
+		endereco.setCep(clienteDTO.getCep());
+		endereco.setCidade(clienteDTO.getCidade());
+		endereco.setEstado(clienteDTO.getEstado());
+		endereco.setLogradouro(clienteDTO.getLogradouro());
+		endereco.setNumero(clienteDTO.getNumero());
+		endereco.setComplemento(clienteDTO.getComplemento());
+		cliente.setEndereco(endereco);
+		return cliente;
+		
 	}
 		
 }

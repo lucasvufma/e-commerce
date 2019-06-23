@@ -74,6 +74,11 @@ public class ECommerceApplication implements CommandLineRunner{
 		
 		//Populando com categorias
 		Categoria cat1 = new Categoria("Informatica");
+		Categoria cat2 = new Categoria("Categoria2");
+		Categoria cat3 = new Categoria("Categoria3");
+		Categoria cat4 = new Categoria("Categoria4");
+		Categoria cat5 = new Categoria("Categoria5");
+		Categoria cat6 = new Categoria("Categoria6");
 		
 		//Populando com produtos
 		Produto p1 = new Produto("Computador",500.0);
@@ -88,8 +93,8 @@ public class ECommerceApplication implements CommandLineRunner{
 		Cliente c1 = new Cliente("Lucas MAchado","lucasvufma@gmail.com","60908095351",encoder.encode("123"));;
 		Cliente c2 = new Cliente("Lucas V. P. MAchado","lucasvufma124123@gmail.com","60908095350",encoder.encode("123456"));;
 		c2.addPerfil(Perfil.ADMIN);
-		Endereco e1 = new Endereco("6","Logradouro","Calhau","65073143", "São Luís","Ma",c1);
-		Endereco e2 = new Endereco("66","Logradouro","Calhau","65073143", "São Luís","Ma",c2);
+		Endereco e1 = new Endereco("APartamento 201","6","Logradouro","Calhau","65073143", "São Luís","Ma",c1);
+		Endereco e2 = new Endereco("Cookie complemento","66","Logradouro","Calhau","65073143", "São Luís","Ma",c2);
 		c1.setEndereco(e1);
 		c2.setEndereco(e2);
 		
@@ -103,7 +108,7 @@ public class ECommerceApplication implements CommandLineRunner{
 		
 		ped1.getItempedido().addAll(Arrays.asList(item1));
 	
-		categoriaRepository.saveAll(Arrays.asList(cat1));
+		categoriaRepository.saveAll(Arrays.asList(cat1,cat2,cat3,cat4,cat5,cat6));
 		produtoRepository.saveAll(Arrays.asList(p1,p2));
 		clienteRepository.saveAll(Arrays.asList(c1,c2));
 		enderecoRepository.saveAll(Arrays.asList(e1,e2));

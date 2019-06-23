@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import ecommerce.application.domain.Cliente;
+import ecommerce.application.dto.ClienteNewDTO;
 import ecommerce.application.services.ClienteService;
 
 @RestController
@@ -48,7 +49,7 @@ public class ClienteController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente post(@RequestBody Cliente Cliente) {
+	public Cliente post(@RequestBody ClienteNewDTO Cliente) {
 		return service.post(Cliente);
 	}
 	@PreAuthorize("hasAnyRole('ADMIN')")
