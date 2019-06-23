@@ -57,7 +57,6 @@ public class ClienteService {
 	public Cliente post(ClienteNewDTO objectDTO) {
 		Cliente object = this.fromDTO(objectDTO);
 		object.setCod_cliente(null);
-		System.out.println(object.getEndereco());
 		object.getEndereco().setCliente(object);
 		return repository.save(object);
 	}
