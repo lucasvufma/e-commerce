@@ -73,7 +73,7 @@ public class PedidoService {
 			ip.setDesconto(0.0);
 			Optional<Produto> produto = produtoRepository.findById(ip.getProduto().getCod_produto());
 			if (produto.isPresent()) {
-				ip.setPreco(produto.get().getPreço());
+				ip.setPreco(produto.get().getPreco());
 				ip.setPedido(object);
 				ip.setProduto(produto.get());
 			}

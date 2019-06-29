@@ -22,11 +22,13 @@ public class Produto implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer cod_produto;
 	private String nome;
-	private double preço;
+	private double preco;
 	@ManyToOne
 	@JoinColumn(name= "cod_categoria")
 	@JsonIgnore
 	private Categoria categoria;
+	
+	private String descricao;
 	
 	@OneToMany(mappedBy="produto")
 	@JsonIgnore
@@ -38,8 +40,15 @@ public class Produto implements Serializable{
 	public Produto(String nome, double preço) {
 		super();
 		this.nome = nome;
-		this.preço = preço;
+		this.preco = preço;
 	}
+	public Produto(String nome, double preço,String descricao) {
+		super();
+		this.nome = nome;
+		this.preco = preço;
+		this.descricao=descricao;
+	}
+	
 
 	@Override
 	public int hashCode() {
@@ -76,11 +85,11 @@ public class Produto implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public double getPreço() {
-		return preço;
+	public double getPreco() {
+		return preco;
 	}
-	public void setPreço(double preço) {
-		this.preço = preço;
+	public void setPreco(double preço) {
+		this.preco = preço;
 	}
 	public Categoria getCategoria() {
 		return categoria;
@@ -95,6 +104,14 @@ public class Produto implements Serializable{
 
 	public void setItempedido(List<ItemPedido> itempedido) {
 		this.itempedido = itempedido;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 	
 

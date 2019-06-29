@@ -41,7 +41,7 @@ public class ItemPedido implements Serializable{
 		this.desconto = desconto;
 		this.pedido = pedido;
 		this.produto = produto;
-		this.preco=produto.getPreço();
+		this.preco=produto.getPreco();
 	}
 
 	public Integer getCod_itempedido() {
@@ -82,7 +82,7 @@ public class ItemPedido implements Serializable{
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
-		this.preco=produto.getPreço();
+		this.preco=produto.getPreco();
 	}
 
 
